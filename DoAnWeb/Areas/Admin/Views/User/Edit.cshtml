@@ -1,0 +1,98 @@
+﻿@model DoAnWeb.Models.User
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/Admin/Home" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/Admin/User" class="nav-link">User</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Sửa tài khoản</a>
+        </li>
+    </ul>
+}
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Sửa thông tin</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Tin tức</a></li>
+                    <li class="breadcrumb-item active">Sửa thông tin</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Thông tin sửa </h3>
+        </div>
+        <div class="card-body">
+            <div class="bs-stepper-content">
+                @using (Html.BeginForm("Edit", "User", FormMethod.Post, new { }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(x => x.maTK)
+                    <!-- your steps content here -->
+                    <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Chủ tài khoản</label>
+                            @Html.TextBoxFor(x => x.tenUser, new { @class = "form-control", @placeholder = "Chủ tài khoản" })
+                            @Html.ValidationMessageFor(x => x.tenUser, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Số điện thoại</label>
+                            @Html.TextBoxFor(x => x.SDT, new { @class = "form-control", @placeholder = "Số điện thoại" })
+                            @Html.ValidationMessageFor(x => x.SDT, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email</label>
+                            @Html.TextBoxFor(x => x.email, new { @class = "form-control", @placeholder = "Email" })
+                            @Html.ValidationMessageFor(x => x.email, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Tên tài khoản</label>
+                            @Html.TextBoxFor(x => x.taiKhoan, new { @class = "form-control", @placeholder = "Tài khoản" })
+                            @Html.ValidationMessageFor(x => x.taiKhoan, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" id="save">Lưu</button>
+                            <a href="/Admin/User" btn btn-danger">Quay lại</a>
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+
+        </div>
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+

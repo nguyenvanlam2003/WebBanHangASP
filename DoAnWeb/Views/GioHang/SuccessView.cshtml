@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewBag.Title = "SuccessView";
+    Layout = "~/Views/Shared/_LayoutCart.cshtml";
+}
+<style>
+    :root {
+        --text-color: #333;
+    }
+
+    body {
+        background: #f3f5f4;
+    }
+
+    .container {
+        width: 1200px;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .order-decore__img {
+        width: 310px;
+        height: 310px;
+    }
+
+    .content__inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 40px;
+        background: #fff;
+        border-radius: 40px;
+        box-shadow: 0px 12px 74px 0px rgba(91, 91, 91, 0.25);
+    }
+
+    .block-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 4px;
+    }
+
+    .welcome-text {
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--text-color);
+    }
+
+    .order-confirm__title {
+        margin-top: 30px;
+        font-size: 2.4rem;
+        font-weight: 700;
+        color: var(--text-color);
+    }
+
+    .order-confirm__desc {
+        width: 400px;
+        margin-top: 20px;
+        font-size: 1.8rem;
+        text-align: center;
+        line-height: 1.5;
+    }
+
+    .order-confirm__link {
+        margin-top: 36px;
+        display: inline-block;
+        padding: 24px 50px;
+        background: #008f78;
+        color: #fff;
+        border-radius: 10px;
+    }
+
+        .order-confirm__link:hover {
+            opacity: 0.9;
+        }
+</style>
+<div class="container">
+    <a href="/Home/Index" class="navigation__back">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+            <path fill="currentColor"
+                  d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+        </svg>
+        <span class="navigation__back-text">Quay lại</span>
+    </a>
+</div>
+
+<div class="container">
+    <div class="content__inner">
+        <img src="~/Content/css/img/5c7a6d878c9920c77988.jpg"
+             alt=""
+             class="order-decore__img" />
+        <section class="block-info">
+            <span class="welcome-text">Xin chào Nguyễn Minh Đức,</span>
+            <h1 class="order-confirm__title">
+                Đơn hàng của bạn đã đặt thành công
+            </h1>
+            <p class="order-confirm__desc">
+                Chúng tôi sẽ gửi đơn hàng của bạn đi sớm nhất. Vui lòng
+                kiểm tra điện thoại khi đơn hàng đang trên đường giao
+                đến bạn
+            </p>
+        </section>
+
+        <a href="/DonHang/Index" class="order-confirm__link">
+            Kiểm tra trạng thái đơn hàng
+        </a>
+    </div>
+</div>
+

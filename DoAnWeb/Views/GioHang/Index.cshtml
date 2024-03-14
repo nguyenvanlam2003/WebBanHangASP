@@ -1,0 +1,398 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutCart.cshtml";
+    var db = new DoAnWeb.Models.MyDBconText();
+    string userId = ViewBag.userId;
+    var ketqua = (from gh in db.GioHangs
+                  join ctGH in db.ChiTietGioHangs on gh.maGH equals ctGH.maGH
+                  join sp in db.SanPhams on ctGH.maSP equals sp.maSP
+                  where gh.maTK == userId
+                  select new
+                  {
+                      ctGH.ID,
+                      gh.maTK,
+                      ctGH.maSP,
+                      sp.tenSP,
+                      ctGH.gia,
+                      ctGH.soLuong,
+                      sp.hinhAnh,
+                      sp.Rom,
+                      sp.Ram
+                      // Thêm các trường khác cần thiết từ các bảng khác
+                  }).ToList();
+    var Gh = (from gh in db.GioHangs
+              where gh.maTK == userId
+              select new
+              {
+                  gh.tongTien,
+                  gh.maTK,
+                  gh.soLuong
+              }).FirstOrDefault();
+    var chuyenChu = new DoAnWeb.Models.NumberToWordsConverter();
+    string chuyen = "";
+    if (Gh.tongTien != null)
+    {
+         chuyen = chuyenChu.ChuyenSoSangChuoi(Gh.tongTien.Value);
+    }
+}
+<style>
+    .radio-btn [type="radio"]:checked ~ .form-radio__label::after {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        content: "";
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background: var(--bg-color);
+        border-radius: 50%;
+    }
+</style>
+
+<!-- Back navigation -->
+<div class="container">
+    <a href="/Home/Index" class="navigation__back">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+            <path fill="currentColor"
+                  d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+        </svg>
+        <span class="navigation__back-text">Quay lại</span>
+    </a>
+</div>
+
+<!-- Cart -->
+@if (Gh.tongTien != null)
+{
+    <main>
+        <section class="cart">
+            <div class="container">
+                <div class="cart__inner">
+
+                    <div class="cart__info">
+                        <!-- Cart list -->
+                        <ul class="cart__list">
+                            <!-- Cart item 1 -->
+                            @foreach (var item in ketqua)
+                            {
+                                <li class="cart-item">
+                                    <div class="cart-item__media">
+                                        <figure class="cart-item__img-wrap">
+                                            <img src="@Url.Content(item.hinhAnh)"
+                                                 alt=""
+                                                 class="cart-item__thumb" />
+                                        </figure>
+                                        <h3 class="cart-item__name">
+                                            @item.tenSP
+                                        </h3>
+                                        <p class="cart-item__price">
+                                            <strong>@( item.gia.Value.ToString("N0") + "đ")</strong>
+                                        </p>
+                                        <span class="control-text">Số lượng</span>
+                                        <div class="control__group">
+                                            <a href="/GioHang/changeQuantity?id=@item.ID&up=null&down='1'"
+                                               class="control__decrease-btn">
+                                                -
+                                            </a>
+                                            <span class="control__number-btn">@item.soLuong</span>
+                                            <a href="/GioHang/changeQuantity?id=@item.ID& up=null & down=null "
+                                               class="control__increase-btn">
+                                                +
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="cart-item__info">
+                                        <!-- Offer list -->
+                                        <ul class="offer__list">
+                                            <!-- Offer item 1 -->
+                                            <li class="offer-item">
+                                                <span class="offer-item__number">
+                                                    KM1
+                                                </span>
+                                                <div class="offer-item__content">
+                                                    <div class="offer-item__decore"></div>
+                                                    <p class="offer-item__desc">
+                                                        Trợ giá lên tới
+                                                        1.000.000đ khi thu cũ
+                                                        đổi mới lên đời iPhone
+                                                        từ iPhone cũ (trừ mã
+                                                        VN/A) và các sản phẩm
+                                                        khác.
+                                                    </p>
+                                                </div>
+                                            </li>
+
+                                            <!-- Offer item 2 -->
+                                            <li class="offer-item">
+                                                <span class="offer-item__number">
+                                                    KM2
+                                                </span>
+                                                <div class="offer-item__content">
+                                                    <div class="offer-item__decore"></div>
+                                                    <p class="offer-item__desc">
+                                                        Trả góp qua Home
+                                                        PayLater giảm tới
+                                                        1.000.000đ.
+                                                    </p>
+                                                </div>
+                                            </li>
+
+                                            <!-- Offer item 3 -->
+                                            <li class="offer-item">
+                                                <span class="offer-item__number">
+                                                    KM3
+                                                </span>
+                                                <div class="offer-item__content">
+                                                    <div class="offer-item__decore"></div>
+                                                    <p class="offer-item__desc">
+                                                        Giảm tới 400.000đ khi
+                                                        mua kèm Microsoft
+                                                        Office/Microsoft 365
+                                                        (Đến hết 30/01/2024).
+                                                    </p>
+                                                </div>
+                                            </li>
+
+                                            <!-- Offer item 4 -->
+                                            <li class="offer-item">
+                                                <span class="offer-item__number">
+                                                    KM4
+                                                </span>
+                                                <div class="offer-item__content">
+                                                    <div class="offer-item__decore"></div>
+                                                    <p class="offer-item__desc">
+                                                        Giảm 1% tối đa 100.000đ
+                                                        (Áp dụng khi thanh toán
+                                                        100% giá trị đơn hàng
+                                                        qua Zalopay)
+                                                    </p>
+                                                </div>
+                                            </li>
+
+                                            <!-- Offer item 5 -->
+                                            <li class="offer-item">
+                                                <span class="offer-item__number">
+                                                    KM5
+                                                </span>
+                                                <div class="offer-item__content">
+                                                    <div class="offer-item__decore"></div>
+                                                    <p class="offer-item__desc">
+                                                        VIB - Nhận Voucher
+                                                        250.000đ khi mở thẻ tín
+                                                        dụng VIB thành công.
+                                                    </p>
+                                                </div>
+                                            </li>
+
+                                            <!-- Offer item 6 -->
+                                            <li class="offer-item">
+                                                <span class="offer-item__number">
+                                                    KM6
+                                                </span>
+                                                <div class="offer-item__content">
+                                                    <div class="offer-item__decore"></div>
+                                                    <p class="offer-item__desc">
+                                                        Giảm sốc 50% giá SIM
+                                                        card khi mua kèm thiết
+                                                        bị.
+                                                    </p>
+                                                </div>
+                                            </li>
+
+                                            <!-- Offer item 7 -->
+                                            <li class="offer-item">
+                                                <span class="offer-item__number">
+                                                    KM7
+                                                </span>
+                                                <div class="offer-item__content">
+                                                    <div class="offer-item__decore"></div>
+                                                    <p class="offer-item__desc">
+                                                        Giảm thêm tới 400.000đ
+                                                        khi mở mới và thanh toán
+                                                        với thẻ TPBank EVO.
+                                                    </p>
+                                                </div>
+                                            </li>
+                                        </ul>
+
+                                        <!-- Options -->
+                                        <div class="options">
+                                            <div class="options-group">
+                                                <div class="option__storage">
+                                                    <span class="options__title">
+                                                        Phiên bản
+                                                    </span>
+                                                    <div class="options__type-wrap">
+                                                        <div class="options-type__decore"></div>
+                                                        <p class="options__type">
+                                                            @item.Rom
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="option__color">
+                                                    <span class="options__title">
+                                                        Ram
+                                                    </span>
+                                                    <div class="options__type-wrap">
+                                                        <div class="options-type__decore"></div>
+                                                        <p class="options__type">
+                                                            @item.Ram
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <a href="/GioHang/xoaGioHang?id=@item.ID" class="cart-item__delete"></a>
+                                </li>
+
+                                <!-- Cart item 2 -->
+                            }
+                        </ul>
+
+                        <!-- Cart total -->
+                        <div class="cart__total">
+                            <p class="cart__total-value">
+                                Tổng giá trị:
+                                <strong>@(Gh.tongTien.Value.ToString("N0") + "đ")</strong>
+                            </p>
+                            <p class="cart__total__discount">
+                                Giảm giá: -00 ₫
+                            </p>
+                            <p class="cart__total-payment">
+                                Tổng thanh toán:
+                                <strong>@(Gh.tongTien.Value.ToString("N0") + "đ")</strong>
+                            </p>
+                            <p class="cart__total-desc">
+                                Bằng chữ: @chuyen
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Right -->
+                    <section class="cart__right">
+                        <div class="cart__right-wrap">
+                            <h2 class="section-heading">
+                                Thông tin đặt hàng
+                            </h2>
+                            <p class="section-desc">
+                                Bạn cần nhập đầy đủ các trường thông tin có
+                                dấu *
+                            </p>
+                        </div>
+                        <form id="cart__form"
+                              class="cart__form"
+                              method="post" action="/GioHang/DatHang">
+                            <div class="form-group">
+                                <input type="text"
+                                       name="tenKH"
+                                       id="name"
+                                       class="form-input"
+                                       placeholder="Họ và tên *"
+                                       minlength="6"
+                                       required />
+                            </div>
+                            <input type="hidden" name="maTK" value="@Gh.maTK" />
+                            <input type="hidden" name="trangThai" value="Đơn hàng đang đuợc chuẩn bị" />
+                            <input type="hidden" name="soLuong" value="@Gh.soLuong" />
+                            <input type="hidden" name="tongTien" value="@Gh.tongTien" />
+                            <div class="form-group">
+                                <input type="tel"
+                                       name="SDT"
+                                       id="phone"
+                                       class="form-input"
+                                       placeholder="Số điện thoại *"
+                                       required />
+                            </div>
+
+
+
+                            <!-- <p class="form-of-receipt">
+        Hình thức nhận hàng
+    </p> -->
+
+                            <div class="form-group">
+                                <input type="text"
+                                       name="diaChi"
+                                       id="personalAddress"
+                                       class="form-input"
+                                       placeholder="Địa chỉ nhận hàng *" />
+                            </div>
+
+                            <!-- Text area -->
+                            <div class="form-group">
+                                <textarea name="ghiChu"
+                                          id="note"
+                                          class="form-textarea"
+                                          cols="30"
+                                          rows="5"
+                                          spellcheck="false"
+                                          minlength="15"
+                                          placeholder="Ghi chú"></textarea>
+                            </div>
+
+                            <p class="payment-label">
+                                Chọn phương thức thanh toán
+                            </p>
+
+                            <!-- Radio group -->
+                            <div class="form-radio__row">
+                                <div class="radio-btn">
+                                    <input type="radio"
+                                           name="hinhThucThanhToan"
+                                           id="cod-payment"
+                                           value="cod"
+                                           hidden
+                                           checked />
+                                    <label for="cod-payment"
+                                           class="form-radio__label">
+                                        COD
+                                    </label>
+                                </div>
+                                <div class="radio-btn">
+                                    <input type="radio"
+                                           name="hinhThucThanhToan"
+                                           id="banking-payment"
+                                           value="banking"
+                                           hidden />
+                                    <label for="banking-payment"
+                                           class="form-radio__label">
+                                        Chuyển khoản
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Submit btn -->
+                            <div class="control-submit__btn">
+                                <button type="submit" class="form-submit">
+                                    XÁC NHẬN VÀ ĐẶT HÀNG
+                                </button>
+                            </div>
+                        </form>
+                    </section>
+
+
+                </div>
+            </div>
+        </section>
+    </main>
+}
+else
+{
+<div class="container">
+    <div class="no-item-wrapper">
+        <figure class="no-item__img-wrap">
+            <img src="~/Content/css/img/134e54d698b734e96da6.jpg"
+                 alt=""
+                 class="no-item__img" />
+        </figure>
+        <p class="no-item__desc">
+            Hiện chưa có sản phẩm nào trong giỏ hàng
+        </p>
+    </div>
+</div>
+    
+}
+
+
+<!-- Loai ky tu thua text area -->

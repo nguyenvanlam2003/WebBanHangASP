@@ -1,0 +1,180 @@
+﻿@model List<DoAnWeb.Models.HoaDon>
+@{
+    ViewBag.Title = "Admin Dơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+}
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/home" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">@ViewBag.Title</a>
+        </li>
+    </ul>
+}
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+
+        <div class="card-header">
+            <h3 class="card-title">Danh sách đơn hàng</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Mã đơn hàng</th>
+                        <th>Tên Khách hàng</th>
+                        <th>Phone</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày mua</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @{var i = ViewBag.Page == 1 ? 1 : ((ViewBag.Page) * 4) - 3; }
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(i)</td>
+                            <td>@item.maHD</td>
+                            <td>@item.tenKH</td>
+                            <td>@item.SDT</td>
+                            <td>@(item.tongTien.Value.ToString("N0") + "đ" )</td>
+                            <td>@item.trangThai</td>
+                            <td>@item.ngayMua</td>
+                            <td>
+                                <a href="/Admin/DonHang/chiTietDonHang?id=@item.maHD" class="btn btn-sm btn-success">Xem</a>
+                                @if (item.trangThai == "Đơn hàng đang đuợc chuẩn bị")
+                                {
+                                    <a href="#" class="btn btn-sm btn-danger btnCapNhat" data-id="@item.maHD">Cập nhật</a>
+                                }
+
+                            </td>
+                        </tr>
+                        i++;
+                    }
+
+                </tbody>
+            </table>
+            @if (Model != null && Model.Any())
+            {
+                <table class="pagination-container">
+                    <tr>
+                        <td colspan="6">
+                            @{
+                                int Pev = ViewBag.Page - 1;
+                                if (Pev <= 0) { Pev = 1; }
+                                int next = ViewBag.Page + 1;
+                                if (next > ViewBag.NoOfPages) { next = ViewBag.NoOfPages; }
+                            }
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item ">
+                                    <a class="page-link" href="/Admin/DonHang/Index?page=@Pev">
+                                        <i class="ti-arrow-left"></i>
+                                    </a>
+                                </li>
+                                @for (int j = 0; j < ViewBag.NoOfPages; j++)
+                                {
+                                    if (j + 1 == ViewBag.Page)
+                                    {
+                                        <li class="page-item active">
+                                            <a class="page-link" href="/Admin/DonHang/Index?page=@(j+1)">
+                                                @(j+1)
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item ">
+                                            <a class="page-link" href="/Admin/DonHang/Index?page=@(j+1)">
+                                                @(j+1)
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                                <li class="page-item ">
+                                    <a class="page-link" href="/Admin/DongHang/Index?page=@next">
+                                        <i class="ti-arrow-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            }
+
+</section>
+<!-- /.content -->
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Cập nhật trạng thái</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="txtOrderId" value="0" />
+                <div class="form-group">
+                    <label>Trạng thái</label>
+                    <select class="form-control" id="ddTrangThai">
+                        <option value="Đang giao">
+                            Đang giao
+                        </option>
+                        <option value="Đơn hàng bị hủy bởi hệ thống">
+                            Đơn hàng bị hủy bởi hệ thống
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="btnLuu">Lưu</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.btnCapNhat', function () {
+                var id = $(this).data("id");
+                $('#txtOrderId').val(id);
+                $('#modal-default').modal('show');
+            });
+
+            $('body').on('click', '#btnLuu', function () {
+                var id = $('#txtOrderId').val();
+                var tt = $('#ddTrangThai').val();
+                $.ajax({
+                    url: '/Admin/DonHang/capNhatHD',
+                    type: 'POST',
+                    data: { id: id, trangthai: tt },
+                    success: function (res) {
+                        if (res.Success) {
+                            location.reload();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

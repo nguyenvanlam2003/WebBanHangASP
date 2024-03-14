@@ -1,0 +1,255 @@
+﻿
+@{
+    ViewBag.Title = "Đơn hàng";
+    Layout = "~/Views/Shared/_LayoutCart.cshtml";
+    string UserId = ViewBag.userID;
+    var db = new DoAnWeb.Models.MyDBconText();
+    var Hd = (from hd in db.HoaDons
+              join us in db.Users on hd.maTK equals us.maTK
+              where hd.maTK == UserId
+              select new
+              {
+
+                  hd.maTK,
+                  hd.maHD,
+                  hd.tenKH,
+                  hd.hinhThucThanhToan,
+                  hd.ghichu,
+                  hd.ngayMua,
+                  hd.SDT,
+                  hd.diaChi,
+                  hd.trangThai,
+                  us.email,
+                  hd.tongTien,
+                  tongSL = hd.soLuong,
+
+                  // Thêm các trường khác cần thiết từ các bảng khác
+              }).ToList();
+    
+}
+<style>
+    td:nth-child(odd){
+        width:120px;
+    }
+ 
+</style>
+<div class="container">
+    <a href="/home/index" class="navigation__back">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+            <path fill="currentColor"
+                  d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+        </svg>
+        <span class="navigation__back-text">Quay lại</span>
+    </a>
+</div>
+@foreach (var item in Hd)
+{
+    <main>
+        <div class="container">
+            <h2 class="label-info">
+                THÔNG TIN ĐƠN HÀNG SỐ
+                <strong>@item.maHD</strong>
+            </h2>
+
+            <div class="order-info">
+                <h3 class="order-info__heading">
+                    1. Thông tin người đặt hàng
+                </h3>
+                <table class="order-info__table">
+                    <tbody>
+                        <tr>
+                            <td>Họ tên</td>
+                            <td>@item.tenKH</td>
+                            <td>Điện thoại</td>
+                            <td>@item.SDT</td>
+                        </tr>
+                        <tr>
+                            <td>Thanh toán</td>
+                            <td>@item.hinhThucThanhToan</td>
+                            <td>Trạng thái</td>
+                            <td colspan="3">
+                                <strong class="order-info__table-status">
+                                    @item.trangThai
+                                </strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nhận hàng tại</td>
+                            <td>
+                                @item.diaChi
+                            </td>
+                            <!-- <td>Chi tiết hóa đơn</td>
+                            <td colspan="3">Xem tại đây</td> -->
+                            <td>Email</td>
+                            <td colspan="3">@item.email</td>
+                        </tr>
+                        <tr>
+                            <td>Ghi chú</td>
+                            <td colspan="5">
+                               @item.ghichu
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Mốc thời gian</td>
+                            <td>@item.ngayMua</td>
+                            <td colspan="4">
+                                <div class="btn-group">
+                                    @if (item.trangThai == "Đơn hàng đang đuợc chuẩn bị")
+                                    {
+                                        <a class="btn-confirm btn-confirm--danger" data-toggle="modal" data-target="#confirmBuy-@item.maHD">Hủy đơn hàng</a>
+                                        <div class="modal fade" id="confirmBuy-@item.maHD" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Xác nhận dủy đơn hàng</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                                        <!-- Nếu xác nhận, thực hiện hành động mua -->
+                                                        <a href="@Url.Action("capNhatTrangThai", "DonHang", new { id = @item.maHD, trangThai="Đơn hàng đã bị hủy bởi khách hàng" })" class="btn btn-danger">Xác nhận</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (item.trangThai == "Đang giao")
+                                    {
+                                        <a href="@Url.Action("capNhatTrangThai", "DonHang", new { id = @item.maHD, trangThai="Chưa nhận được hàng" })" class="btn-confirm btn-confirm--warning"> Chưa nhận được hàng </a>
+                                        <a href="@Url.Action("capNhatTrangThai", "DonHang", new { id = @item.maHD, trangThai="Đã nhận được hàng" })" class="btn-confirm btn-confirm--success">Đã nhận được hàng</a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-info">
+                <h3 class="order-info__heading">
+                    2. Danh sách sản phẩm đặt hàng
+                </h3>
+                <table class="order-info__table table-product">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Phiên bản</th>
+                            <th>Màu sắc</th>
+                            <th>SL</th>
+                            <th>Giá tiền</th>
+                            <th>Tổng (SLxG)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var CTHd = (from hd in db.HoaDons
+                                        join ctHD in db.ChiTietHDs on hd.maHD equals ctHD.maHD
+                                        join sp in db.SanPhams on ctHD.maSP equals sp.maSP
+                                        where ctHD.maHD == item.maHD
+                                        select new
+                                        {
+                                            sp.tenSP,
+                                            ctHD.gia,
+                                            ctHD.soLuong,
+                                            ctHD.thanhTien,
+
+                                            // Thêm các trường khác cần thiết từ các bảng khác
+                                        }).ToList();
+                            var k = 0;
+                            foreach (var j in CTHd)
+                            {
+                                <tr>
+                                    <td rowspan="6" class="align-td">@(++k)</td>
+                                    <td>
+                                        <strong class="bold-text">
+                                            @j.tenSP
+                                        </strong>
+                                    </td>
+                                    <td class="center-text">Mặc định</td>
+                                    <td class="center-text">Mặc định</td>
+                                    <td class="center-text">@j.soLuong</td>
+                                    <td class="center-text">@(j.gia.Value.ToString("N0") + "đ" )</td>
+                                    <td class="center-text">@(j.thanhTien.Value.ToString("N0") + "đ" )</td>
+                                </tr>
+                                <tr class="text-darkgray">
+                                    <td colspan="6">
+                                        KM Trả góp qua Home PayLater giảm tới
+                                        1.000.000đ.
+                                    </td>
+                                </tr>
+                                <tr class="text-darkgray">
+                                    <td colspan="6">
+                                        KM VIB - Nhận Voucher 250.000đ khi mở thẻ
+                                        tín dụng VIB thành công.
+                                    </td>
+                                </tr>
+                                <tr class="text-darkgray">
+                                    <td colspan="6">
+                                        KM Giảm 5% tối đa 1.000.000đ (đơn hàng từ
+                                        3.000.000đ) khi thanh toán qua Kredivo (Áp
+                                        dụng từ 01-03/02)
+                                    </td>
+                                </tr>
+                                <tr class="text-darkgray">
+                                    <td colspan="6">
+                                        KM Giảm thêm tới 400.000đ khi mở mới và
+                                        thanh toán với thẻ TPBank EVO.
+                                    </td>
+                                </tr>
+                                <tr class="text-darkgray">
+                                    <td colspan="6">
+                                        KM Giảm 1% tối đa 100.000đ (Áp dụng khi
+                                        thanh toán 100% giá trị đơn hàng qua
+                                        Zalopay)
+                                    </td>
+                                </tr>
+                            }
+                            }
+
+
+
+                                <tr class="no-border">
+                                    <td colspan="6" class="align-right">
+                                        Tổng tiền:
+                                    </td>
+                                    <td>@(item.tongTien.Value.ToString("N0") + "đ" )</td>
+                                </tr>
+                                <tr class="no-border">
+                                    <td colspan="6" class="align-right">
+                                        Đã trả trước:
+                                    </td> @if (item.hinhThucThanhToan == "banking")
+                                    {
+                                        <td> -@(item.tongTien.Value.ToString("N0") + "đ") </td>
+                                    }
+                                    else
+                                    {
+                                        <td>-00 đ</td>
+                                    }
+                                </tr>
+                                <tr class="no-border">
+                                    <td colspan="6" class="align-right">
+                                        Giảm giá:
+                                    </td>
+                                    <td>-00 đ</td>
+                                </tr>
+                                <tr class="no-border">
+                                    <td colspan="6" class="align-right">
+                                        Tổng tiền thanh toán:
+                                    </td>
+                                    <td>
+                                        <strong class="text-red">@(item.tongTien.Value.ToString("N0") + "đ" )</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+                            }
+
+
+
+

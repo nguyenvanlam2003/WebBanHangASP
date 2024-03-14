@@ -1,0 +1,272 @@
+﻿
+@{
+    ViewBag.Title = "chiTietDonHang";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    string maHD = ViewBag.maHD;
+    var db = new DoAnWeb.Models.MyDBconText();
+    var Hd = (from hd in db.HoaDons
+              join us in db.Users on hd.maTK equals us.maTK
+              where hd.maHD == maHD
+              select new
+              {
+
+                  hd.maTK,
+                  hd.maHD,
+                  hd.tenKH,
+                  hd.hinhThucThanhToan,
+                  hd.ghichu,
+                  hd.ngayMua,
+                  hd.SDT,
+                  hd.diaChi,
+                  hd.trangThai,
+                  us.email,
+                  hd.tongTien,
+                  tongSL = hd.soLuong,
+
+                  // Thêm các trường khác cần thiết từ các bảng khác
+              }).FirstOrDefault();
+    var CTHD = (from hd in db.HoaDons
+                join cthd in db.ChiTietHDs on hd.maHD equals cthd.maHD
+                join sp in db.SanPhams on cthd.maSP equals sp.maSP
+                where hd.maHD == maHD
+                select new
+                {
+                    sp.tenSP,
+                    cthd.soLuong,
+                    cthd.gia,
+                    cthd.thanhTien,
+
+                }
+              ).ToList();
+    var i = 0;
+}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+    .card {
+        padding-left: inherit;
+        font-size:1.1rem;
+    }
+   /* html {
+        font-size: 69.5%;
+    }
+
+    body {
+        font-size: 1.6rem;
+    }*/
+
+    .content {
+        width: 1200px;
+        max-width: calc(100% - 48px);
+        margin: 0 auto 0 15px;
+    }
+
+    .order-info__table {
+        margin-top: 16px;
+        width: 100%;
+        font-size: 1rem;
+        color: var(--text-color);
+        border-collapse: collapse;
+    }
+
+    .table-product {
+        padding: 5px 8px;
+        border: 1px solid #dedede;
+    }
+
+        .table-product th {
+            color: #fff;
+            background: #009a82;
+        }
+
+        .table-product th,
+        .table-product td {
+            border: 1px solid #dedede;
+            padding: 5px 8px;
+        }
+
+        .table-product th {
+            text-align: center;
+        }
+
+        .table-product td.center-text {
+            text-align: center;
+        }
+
+    .align-td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    td .bold-text {
+        font-weight: 700;
+    }
+
+    .text-darkgray {
+        color: #888;
+    }
+
+    td .text-red {
+        color: #fd475a;
+        font-weight: 700;
+    }
+
+    tr.no-border,
+    tr.no-border td {
+        border: none;
+    }
+
+    .align-right {
+        text-align: right;
+    }
+</style>
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/home" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Chi tiết đơn hàng</a>
+        </li>
+    </ul>
+}
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+      
+        <div class="card-header">
+            <h3 class="card-title">Chi tiết đơn hàng</h3>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Cột 1 -->
+                <p for="field2">Mã hóa đơn:  @Hd.maHD</p>
+                <p for="field3">Tên khách hàng:  @Hd.tenKH</p>
+                <p for="field4">Nhận hàng tại:  @Hd.diaChi</p>
+            </div>
+
+            <div class="col-md-4">
+                <!-- Cột 2 -->
+                <p for="field5">Số điện thoại:  @Hd.SDT</p>
+                <p for="field12">Emai:  @Hd.email</p>
+                <p for="field6">Ngày mua:  @Hd.ngayMua</p>
+            </div>
+
+            <div class="col-md-4">
+                <!-- Cột 3 -->
+                <p for="field9">Trạng thái:  @Hd.trangThai</p>
+                <p for="field10">Ghi chú:  @Hd.ghichu</p>
+                <p for="field11">Hình thức thanh toán:  @Hd.hinhThucThanhToan</p>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="order-info">
+                <h3 class="order-info__heading">
+                    Danh sách sản phẩm đặt hàng
+                </h3>
+                <table class="order-info__table table-product">
+
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Phiên bản</th>
+                            <th>Màu sắc</th>
+                            <th>SL</th>
+                            <th>Giá tiền</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in CTHD)
+                        {
+                            <tr>
+                                <td rowspan="6" class="align-td">@(++i)</td>
+                                <td>
+                                    <strong class="bold-text">
+                                        @item.tenSP
+                                    </strong>
+                                </td>
+                                <td class="center-text">Mặc định</td>
+                                <td class="center-text">Mặc định</td>
+                                <td class="center-text">@(item.soLuong)</td>
+                                <td class="center-text">@(item.gia.Value.ToString("N0") + "đ" )</td>
+                                <td class="center-text">@(item.thanhTien.Value.ToString("N0") + "đ" )</td>
+                            </tr>
+                            <tr class="text-darkgray">
+                                <td colspan="6">
+                                    KM Trả góp qua Home PayLater giảm tới
+                                    1.000.000đ.
+                                </td>
+                            </tr>
+                            <tr class="text-darkgray">
+                                <td colspan="6">
+                                    KM VIB - Nhận Voucher 250.000đ khi mở thẻ tín
+                                    dụng VIB thành công.
+                                </td>
+                            </tr>
+                            <tr class="text-darkgray">
+                                <td colspan="6">
+                                    KM Giảm 5% tối đa 1.000.000đ (đơn hàng từ
+                                    3.000.000đ) khi thanh toán qua Kredivo (Áp dụng
+                                    từ 01-03/02)
+                                </td>
+                            </tr>
+                            <tr class="text-darkgray">
+                                <td colspan="6">
+                                    KM Giảm thêm tới 400.000đ khi mở mới và thanh
+                                    toán với thẻ TPBank EVO.
+                                </td>
+                            </tr>
+                            <tr class="text-darkgray">
+                                <td colspan="6">
+                                    KM Giảm 1% tối đa 100.000đ (Áp dụng khi thanh
+                                    toán 100% giá trị đơn hàng qua Zalopay)
+                                </td>
+                            </tr>
+                        }
+                        <tr class="no-border">
+                            <td colspan="6" class="align-right">Tổng tiền:</td>
+                            <td>@(Hd.tongTien.Value.ToString("N0") + "đ") </td>
+                        </tr>
+                        <tr class="no-border">
+                            <td colspan="6" class="align-right">
+                                Đã trả trước:
+                            </td>
+                            @if (Hd.hinhThucThanhToan == "banking")
+                            {
+                                <td> -@(Hd.tongTien.Value.ToString("N0") + "đ") </td>
+                            }
+                            else
+                            {
+                                <td>-00 đ</td>
+                            }
+                        </tr>
+                        <tr class="no-border">
+                            <td colspan="6" class="align-right">Giảm giá:</td>
+                            <td>-00 đ</td>
+                        </tr>
+                        <tr class="no-border">
+                            <td colspan="6" class="align-right">
+                                Tổng tiền thanh toán:
+                            </td>
+                            <td>
+                                <strong class="text-red">@(Hd.tongTien.Value.ToString("N0") + "đ" )</strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>
+

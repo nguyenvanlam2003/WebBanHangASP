@@ -1,0 +1,220 @@
+﻿@model DoAnWeb.Models.SanPham
+@{
+    ViewBag.Title = "ThemSP";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/Admin/Home" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/Admin/SanPham" class="nav-link">Sản phẩm</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Thêm mới</a>
+        </li>
+    </ul>
+}
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Thêm mới Sản phẩm</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Tin tức</a></li>
+                    <li class="breadcrumb-item active">Thêm mới</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Thông tin thêm mới Sản phẩm</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    @using (Html.BeginForm("ThemSP", "SanPham", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <div class="card">
+
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <div class="active tab-pane" id="activity">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Tên sản phẩm</label>
+                                            @Html.TextBoxFor(x => x.tenSP, new { @class = "form-control", @placeholder = "Tên sản phẩm" })
+                                            @Html.ValidationMessageFor(x => x.tenSP, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Hãng sản xuất</label>
+                                            @Html.DropDownListFor(x => x.maHangSX, ViewBag.hangSX as SelectList, "-Chọn hãng sản xuất-", new { @class = "form-control", @placeholder = "Hãng sản xuất" })
+                                            @Html.ValidationMessageFor(x => x.maHangSX, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Công nghệ màn hình</label>
+                                            @Html.TextBoxFor(x => x.conNgheMH, new { @class = "form-control", @placeholder = "Công nghệ màn hình" })
+                                            @Html.ValidationMessageFor(x => x.conNgheMH, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Độ phân giải</label>
+                                            @Html.TextBoxFor(x => x.doPhanGiai, new { @class = "form-control", @placeholder = "Độ phân giải" })
+                                            @Html.ValidationMessageFor(x => x.doPhanGiai, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Màn hình rộng</label>
+                                            @Html.TextBoxFor(x => x.manHinhRong, new { @class = "form-control", @placeholder = "Màn hình rộng" })
+                                            @Html.ValidationMessageFor(x => x.manHinhRong, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Độ phân giải cammera</label>
+                                            @Html.TextBoxFor(x => x.doPhanGiaiCam, new { @class = "form-control", @placeholder = "Độ phân giả cammera" })
+                                            @Html.ValidationMessageFor(x => x.doPhanGiaiCam, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Hệ điều hành</label>
+                                            @Html.TextBoxFor(x => x.heDieuHanh, new { @class = "form-control", @placeholder = "Hệ điều hành" })
+                                            @Html.ValidationMessageFor(x => x.heDieuHanh, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Chíp(CPU)</label>
+                                            @Html.TextBoxFor(x => x.CPU, new { @class = "form-control", @placeholder = "Chíp(CPU)" })
+                                            @Html.ValidationMessageFor(x => x.CPU, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">ROM</label>
+                                            @Html.TextBoxFor(x => x.Rom, new { @class = "form-control", @placeholder = "ROM" })
+                                            @Html.ValidationMessageFor(x => x.Rom, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Ram</label>
+                                            @Html.TextBoxFor(x => x.Ram, new { @class = "form-control", @placeholder = "Ram" })
+                                            @Html.ValidationMessageFor(x => x.Ram, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Mạng</label>
+                                            @Html.TextBoxFor(x => x.Mang, new { @class = "form-control", @placeholder = "Mạng di động hỗ trợ" })
+                                            @Html.ValidationMessageFor(x => x.Mang, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Số khe sim</label>
+                                            @Html.TextBoxFor(x => x.soKheSim, new { @class = "form-control", @placeholder = "Số khe sim" })
+                                            @Html.ValidationMessageFor(x => x.soKheSim, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Pin</label>
+                                            @Html.TextBoxFor(x => x.Pin, new { @class = "form-control", @placeholder = "Pin" })
+                                            @Html.ValidationMessageFor(x => x.Pin, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Hình ảnh</label>
+                                                    <input type="file" class="form-control" id="hinhAnh" name="hinhAnh" accept=".jpg, .jpeg, .png, .webp">
+                                                    @* @Html.TextBoxFor(x => x.hinhAnh, new { @class = "form-control", @accept = ".jpg, .jpeg, .png, .webp", @type = "file" })*@
+                                                    @Html.ValidationMessageFor(x => x.hinhAnh, null, new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Giá nhập</label>
+                                                    <input type="text" name="demoOriginalPrice" id="demoOriginalPrice" value="" class="form-control auto">
+                                                    @Html.HiddenFor(x => x.giaNhap, new { @class = "form-control", @placeholder = "Giá nhập" })
+                                                    @Html.ValidationMessageFor(x => x.giaNhap, null, new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Giá Bán</label>
+                                                    <input type="text" name="demoPrice" value="" id="demoPrice" class="form-control auto">
+                                                    @Html.HiddenFor(x => x.giaBan, new { @class = "", @placeholder = "Giá" })
+                                                    @Html.ValidationMessageFor(x => x.giaBan, null, new { @class = "text-danger" })
+                                                    <span id="giaBanErrorMessage" class="text-danger" style="display:none;">Giá bán phải lớn hơn giá nhập.</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Giá khuyến mãi</label>
+                                                    <input type="text" name="demoPriceSale" id="demoPriceSale" value="" class="form-control auto">
+                                                    @Html.HiddenFor(x => x.giaMoi, new { @class = "form-control", @placeholder = "Khuyến mãi" })
+                                                    @Html.ValidationMessageFor(x => x.giaMoi, null, new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                </div>
+                                <!-- /.tab-content -->
+                            </div><!-- /.card-body -->
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success">Thêm mới</button>
+                            </div>
+                        </div> <!-- /.card -->
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+
+        </div>
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+
+
+@section  scripts{
+    <script>
+        $(document).ready(function () {
+            $('.auto').autoNumeric('init');
+            $('#demoPrice').bind('blur focusout keypress keyup', function () {
+                var demoGet = $('#demoPrice').autoNumeric('get');
+                $('#giaBan').val(demoGet);
+                $('#giaBan').autoNumeric('set', demoGet);
+            });
+            $('#demoPriceSale').bind('blur focusout keypress keyup', function () {
+                var demoGet = $('#demoPriceSale').autoNumeric('get');
+                $('#giaMoi').val(demoGet);
+                $('#giaMoi').autoNumeric('set', demoGet);
+            });
+            $('#demoOriginalPrice').bind('blur focusout keypress keyup', function () {
+                var demoGet = $('#demoOriginalPrice').autoNumeric('get');
+                $('#giaNhap').val(demoGet);
+                $('#giaNhap').autoNumeric('set', demoGet);
+            });
+            $('#demoPrice').on('change', function () {
+                    var giaNhap = parseFloat($('#demoOriginalPrice').val());
+                    var giaBan = parseFloat($(this).val());
+                    if (giaBan < giaNhap) {
+                        $('#giaBanErrorMessage').show();
+                        $(this).val('');
+                    } else {
+                        $('#giaBanErrorMessage').hide();
+                    }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,55 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="~/Content/css/reset.css" rel="stylesheet" />
+    <link href="~/Content/css/cart.css" rel="stylesheet" />
+    <link href="~/Content/css/order (1).css" rel="stylesheet" />
+</head>
+<body>
+    <header class="header">
+        <div class="container header__inner">
+            <nav class="header__navbar">
+                <ul class="nav__list">
+                    <li class="nav-item">
+                        <a href="#!" class="nav-item__link">Bản mobile</a>
+                        <a href="introduce.html" class="nav-item__link">Giới thiệu</a>
+                        <a href="#!" class="nav-item__link">Sản phẩm đã xem</a>
+                        <a href="#!" class="nav-item__link">Trung tâm bảo hành</a>
+                        <a href="#!" class="nav-item__link">Hệ thống 128 siêu thị</a>
+                        <a href="#!" class="nav-item__link">Tuyển dụng</a>
+                        <a href="#!" class="nav-item__link">Tra cứu đơn hàng</a>
+                        <a href="#!" class="nav-item__link">Đăng nhập</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    @RenderBody()
+    <script>
+            //Xoa bo ky tu thua trong text area
+            document.addEventListener("DOMContentLoaded", function () {
+                var form = document.getElementById("cart__form");
+
+                form.addEventListener("submit", function (event) {
+                    var noteTextarea = document.getElementById("note");
+
+                    var cleanedNote = noteTextarea.value
+                        .replace(/\s+/g, " ")
+                        .trim();
+
+                    noteTextarea.value = cleanedNote;
+                });
+            });
+    </script>
+</body>
+</html>
