@@ -25,6 +25,7 @@ namespace DoAnWeb.Areas.Admin.Controllers
                         on hd.maHD equals cthd.maHD
                         join sp in db.SanPhams
                         on cthd.maSP equals sp.maSP
+                        where hd.trangThai== "Đã nhận được hàng"
                         select new
                         {
                             CreatedDate = hd.ngayMua,

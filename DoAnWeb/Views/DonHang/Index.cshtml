@@ -1,4 +1,4 @@
-﻿
+﻿@using System
 @{
     ViewBag.Title = "Đơn hàng";
     Layout = "~/Views/Shared/_LayoutCart.cshtml";
@@ -22,10 +22,9 @@
                   us.email,
                   hd.tongTien,
                   tongSL = hd.soLuong,
-
-                  // Thêm các trường khác cần thiết từ các bảng khác
               }).ToList();
-    
+    Hd = Hd.OrderBy(hd =>(DateTime.Now - hd.ngayMua)).ToList();
+
 }
 <style>
     td:nth-child(odd){

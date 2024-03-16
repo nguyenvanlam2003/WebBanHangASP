@@ -135,5 +135,13 @@ namespace DoAnWeb.Controllers
 
             return View("Index", ketqua);
         }
+        public ActionResult trungTamBH()
+        {
+            return View();
+        }
+        public ActionResult thongtin()
+        {
+            return View();
+        }
     }
 }

@@ -444,12 +444,12 @@ body {
 
 .radio-btn [type="radio"]:checked ~ .form-radio__label::after {
     position: absolute;
-    top: 4px;
-    left: 4px;
+    top: 5px;
+    left: 5px;
     content: "";
     display: inline-block;
-    width: 12px;
-    height: 12px;
+    width: 13px;
+    height: 13px;
     background: var(--bg-color);
     border-radius: 50%;
 }

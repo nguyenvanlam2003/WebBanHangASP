@@ -143,6 +143,7 @@
     <Compile Include="Controllers\DonHangController.cs" />
     <Compile Include="Controllers\GioHangController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\thanhToanPayPalController.cs" />
     <Compile Include="Filter\ClientAuthorizeAttribute.cs" />
     <Compile Include="Filter\CustomAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -2373,8 +2374,8 @@
     <Content Include="Content\clients\plugins\uplot\uPlot.min.css" />
     <Content Include="Content\css\base.css" />
     <Content Include="Content\css\cart %281%29.css" />
-    <Content Include="Content\css\img\134e54d698b734e96da6.jpg" />
     <Content Include="Content\css\img\5c7a6d878c9920c77988.jpg" />
+    <Content Include="Content\css\img\a02bdeed1d22b17ce833.jpg" />
     <Content Include="Content\css\img\apple-chinh-hang.jpg" />
     <Content Include="Content\css\img\apple.png" />
     <Content Include="Content\css\img\care-services.png" />
@@ -2617,11 +2618,14 @@
     <Content Include="Views\GioHang\FailureView.cshtml" />
     <Content Include="Views\GioHang\SuccessView.cshtml" />
     <Content Include="Views\DonHang\Index.cshtml" />
+    <Content Include="Views\Home\trungTamBH.cshtml" />
+    <Content Include="Views\Home\thongtin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Assets\Img\" />
+    <Folder Include="Views\thanhToanPayPal\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

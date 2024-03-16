@@ -2,6 +2,14 @@
 @{
     ViewBag.Title = "SuccessView";
     Layout = "~/Views/Shared/_LayoutCart.cshtml";
+    string userId = Request.Cookies["UserSession"]["UserId"];
+    var db = new DoAnWeb.Models.MyDBconText();
+    var ketqua = (from us in db.Users
+                  where us.maTK == userId
+                  select new
+                  {
+                      us.tenUser
+                  }).FirstOrDefault();
 }
 <style>
     :root {
@@ -90,7 +98,7 @@
              alt=""
              class="order-decore__img" />
         <section class="block-info">
-            <span class="welcome-text">Xin chào Nguyễn Minh Đức,</span>
+            <span class="welcome-text">Xin chào @ketqua.tenUser</span>
             <h1 class="order-confirm__title">
                 Đơn hàng của bạn đã đặt thành công
             </h1>

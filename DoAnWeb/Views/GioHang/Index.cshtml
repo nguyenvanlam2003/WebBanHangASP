@@ -47,6 +47,21 @@
         background: var(--bg-color);
         border-radius: 50%;
     }
+
+    .no-item__img {
+        width: 845px;
+    }
+
+    .no-item__img-wrap {
+        display: flex;
+        justify-content: center;
+    }
+
+    .no-item__desc {
+        text-align: center;
+        font-size: xx-large;
+        font-weight: 400;
+    }
 </style>
 
 <!-- Back navigation -->
@@ -89,13 +104,11 @@
                                         </p>
                                         <span class="control-text">Số lượng</span>
                                         <div class="control__group">
-                                            <a href="/GioHang/changeQuantity?id=@item.ID&up=null&down='1'"
-                                               class="control__decrease-btn">
+                                            <a href="javascript:void(0)" onclick="changeQuantity('@item.ID', 0, 1)" class="control__decrease-btn">
                                                 -
                                             </a>
                                             <span class="control__number-btn">@item.soLuong</span>
-                                            <a href="/GioHang/changeQuantity?id=@item.ID& up=null & down=null "
-                                               class="control__increase-btn">
+                                            <a href="javascript:void(0)" onclick="changeQuantity('@item.ID', 1, 0)" class="control__increase-btn">
                                                 +
                                             </a>
                                         </div>
@@ -382,7 +395,7 @@ else
 <div class="container">
     <div class="no-item-wrapper">
         <figure class="no-item__img-wrap">
-            <img src="~/Content/css/img/134e54d698b734e96da6.jpg"
+            <img src="~/Content/css/img/a02bdeed1d22b17ce833.jpg"
                  alt=""
                  class="no-item__img" />
         </figure>
@@ -393,6 +406,25 @@ else
 </div>
     
 }
+<script >
+    function changeQuantity(id, up, down) {
+        $.ajax({
+            type: "POST",
+            url: "/GioHang/changeQuantity",
+            data: {
+                id: id,
+                up: up,
+                down: down
+            },
+            success: function (data) {
+                // Cập nhật giao diện người dùng tại đây nếu cần thiết
+                // Ví dụ: Cập nhật số lượng sản phẩm mà không cần tải lại trang
+                if (data.soLuong == 0) {
+                    location.reload();
+                }
+                $(".control__number-btn").text(data.soLuong);
+            }
+        });
+    }
 
-
-<!-- Loai ky tu thua text area -->
+</script>
