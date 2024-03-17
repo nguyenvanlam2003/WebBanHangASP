@@ -268,14 +268,14 @@
                         <div class="cart__total">
                             <p class="cart__total-value">
                                 Tổng giá trị:
-                                <strong>@(Gh.tongTien.Value.ToString("N0") + "đ")</strong>
+                                <strong class="TongTien">@(Gh.tongTien.Value.ToString("N0") + "đ")</strong>
                             </p>
                             <p class="cart__total__discount">
                                 Giảm giá: -00 ₫
                             </p>
                             <p class="cart__total-payment">
                                 Tổng thanh toán:
-                                <strong>@(Gh.tongTien.Value.ToString("N0") + "đ")</strong>
+                                <strong class="TongTien">@(Gh.tongTien.Value.ToString("N0") + "đ")</strong>
                             </p>
                             <p class="cart__total-desc">
                                 Bằng chữ: @chuyen
@@ -419,10 +419,9 @@ else
             success: function (data) {
                 // Cập nhật giao diện người dùng tại đây nếu cần thiết
                 // Ví dụ: Cập nhật số lượng sản phẩm mà không cần tải lại trang
-                if (data.soLuong == 0) {
-                    location.reload();
-                }
+               
                 $(".control__number-btn").text(data.soLuong);
+                location.reload();
             }
         });
     }

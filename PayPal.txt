@@ -1,0 +1,4 @@
+https://developer.paypal.com/dashboard/
+
+email: sb-sqp2129799987@personal.example.com
+mật khẩu: #;.yMz6R

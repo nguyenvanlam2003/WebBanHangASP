@@ -2380,6 +2380,7 @@
     <Content Include="Content\css\img\apple.png" />
     <Content Include="Content\css\img\care-services.png" />
     <Content Include="Content\css\img\dai-le-gia-sieu-me.png" />
+    <Content Include="Content\css\img\error-page.jpg" />
     <Content Include="Content\css\img\hot.png" />
     <Content Include="Content\css\img\logo-atm.png" />
     <Content Include="Content\css\img\logo-bct.png" />
@@ -2615,11 +2616,11 @@
     <Content Include="Views\Account\login.cshtml" />
     <Content Include="Views\Account\register.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
-    <Content Include="Views\GioHang\FailureView.cshtml" />
     <Content Include="Views\GioHang\SuccessView.cshtml" />
     <Content Include="Views\DonHang\Index.cshtml" />
     <Content Include="Views\Home\trungTamBH.cshtml" />
     <Content Include="Views\Home\thongtin.cshtml" />
+    <Content Include="Views\GioHang\FailureView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
