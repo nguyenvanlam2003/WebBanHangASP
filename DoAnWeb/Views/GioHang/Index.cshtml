@@ -60,7 +60,7 @@
     .no-item__desc {
         text-align: center;
         font-size: xx-large;
-        font-weight: 400;
+        font-weight: 500;
     }
 </style>
 
@@ -395,7 +395,7 @@ else
 <div class="container">
     <div class="no-item-wrapper">
         <figure class="no-item__img-wrap">
-            <img src="~/Content/css/img/a02bdeed1d22b17ce833.jpg"
+            <img src="~/Content/css/img/a02bdeed1d22b17ce833.png" 
                  alt=""
                  class="no-item__img" />
         </figure>
@@ -417,10 +417,7 @@ else
                 down: down
             },
             success: function (data) {
-                // Cập nhật giao diện người dùng tại đây nếu cần thiết
-                // Ví dụ: Cập nhật số lượng sản phẩm mà không cần tải lại trang
-               
-                $(".control__number-btn").text(data.soLuong);
+             //   $(".control__number-btn").text(data.soLuong);
                 location.reload();
             }
         });

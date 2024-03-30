@@ -2,52 +2,207 @@
 @{
     Layout = null;
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="~/Content/css/reset.css" rel="stylesheet" />
+    <link href="~/Content/css/profile.css" rel="stylesheet" />
+    <script src="~/Content/assets/js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <main>
+        <div class="container">
+            <h1 class="profile__heading">Thông tin cá nhân</h1>
+            <section class="profile__top">
+                <div class="profile__top-row">
+                    <figure class="profile__avatar-wrap">
+                        <img src="~/Content/css/img/30ccf2ab28d68788dec7.jpg"
+                             alt=""
+                             class="profile__avatar" />
+                    </figure>
+                    <div class="profile__info">
+                        <h2 class="profile__name">@Model.tenUser</h2>
+                        <p class="profile__email">@Model.email</p>
+                        <p class="profile__phone">@Model.SDT</p>
+                    </div>
 
-<title>Thêm Sản Phẩm</title>
-<!-- Chèn các tệp CSS và JS của Bootstrap -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                    <div class="btn-group">
+                        <a href="@Url.Action("logout", "Account")" class="btn btn__sign-out">
+                            <span>Đăng xuất</span>
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        </a>
+                        <a href="/Home/index" class="btn back__btn">
+                            Về trang chủ
+                        </a>
+                    </div>
+                </div>
+            </section>
 
-<div class="container mt-5">
-    <h2>Sửa thông tin</h2>
-    @using (Html.BeginForm("Edit", "Account", new { MaTK = Model.maTK }, FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
-    {
-        <div class="row">
-            <!-- Cột 1 -->
-            <div class="col-md-6">
-                <!-- Tên sản phẩm -->
-                <div class="mb-3">
-                    @Html.LabelFor(model => model.tenUser, new { @class = "form-label" })
-                    @Html.TextBoxFor(model => model.tenUser, new { @class = "form-control" })
-                </div>
-                <div class="mb-3">
-                    @Html.LabelFor(model => model.SDT, new { @class = "form-label" })
-                    @Html.TextBoxFor(model => model.SDT, new { @class = "form-control" })
-                </div>
-                <!-- Màn hình -->
-                <div class="mb-3">
-                    @Html.LabelFor(model => model.email, new { @class = "form-label" })
-                    @Html.TextBoxFor(model => model.email, new { @class = "form-control" })
+            <form action="@Url.Action("Edit", "Account")"method="post" class="profile-form">
+                <input type="hidden" name="maTK" value="@Model.maTK"/>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="full-name" class="form-label">
+                            Họ tên
+                        </label>
+                        <input type="text"
+                               id="full-name"
+                               name="tenUser"
+                               class="form-input"
+                               value="@Model.tenUser"/>
+                    </div>
                 </div>
 
-                <!-- Độ phân giải -->
-                <div class="mb-3">
-                    @Html.LabelFor(model => model.taiKhoan, new { @class = "form-label" })
-                    @Html.TextBoxFor(model => model.taiKhoan, new { @class = "form-control" })
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="user-name" class="form-label">
+                            Tài khoản
+                        </label>
+                        <input type="text"
+                               id="user-name"
+                               name="taiKhoan"
+                               class="form-input"
+                               value="@Model.taiKhoan"/>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    @Html.LabelFor(model => model.matKhau, new { @class = "form-label" })
-                    @Html.TextBoxFor(model => model.matKhau, new { @class = "form-control" })
+
+                <div class="form-row">
+                    <div class="form-group form-group__special-info">
+                        <label for="email" class="form-label">
+                            Địa chỉ Email
+                        </label>
+                        <i class="fa-regular fa-envelope email-icon"></i>
+                        <input type="email"
+                               name="email"
+                               id="email"
+                               class="form-input"
+                               value="@Model.email"/>
+                    </div>
+                    <div class="form-group form-group__special-info">
+                        <label for="phone" class="form-label">
+                            Số điện thoại
+                        </label>
+                        <i class="fa-solid fa-mobile-screen phone-icon"></i>
+                        <input type="tel"
+                               name="SDT"
+                               id="phone"
+                               class="form-input"
+                               value="@Model.SDT"/>
+                    </div>
                 </div>
-            </div>
+
+                <div class="form-row">
+                    <div class="form-group form-group__password">
+                        <label for="current-password" class="form-label">
+                            Mật khẩu hiện tại
+                        </label>
+                        <i class="fa-solid fa-key password-icon"></i>
+                        <input type="password"
+                               id="current-password"
+                               class="form-input"
+                               value="@Model.matKhau" />
+                        <div class="show-hide-password">
+                            <i class="fa-regular fa-eye"
+                               onclick="changeTypeCurrentPassword()"></i>
+                            <i class="fa-regular fa-eye-slash"
+                               onclick="changeTypeCurrentPassword()"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-group__password">
+                        <label for="new-password" class="form-label">
+                            Mật khẩu mới
+                        </label>
+                        <i class="fa-solid fa-key password-icon"></i>
+                        <input type="password"
+                               name="matKhau"
+                               id="new-password"
+                               class="form-input"
+                               value="" />
+                        <div class="show-hide-password">
+                            <i class="fa-regular fa-eye"
+                               onclick="changeTypeNewPassword()"></i>
+                            <i class="fa-regular fa-eye-slash"
+                               onclick="changeTypeNewPassword()"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group form-group__password">
+                        <label for="confirmed-password" class="form-label">
+                            Xác nhận mật khẩu mới
+                        </label>
+                        <i class="fa-solid fa-key password-icon"></i>
+                        <input type="password"
+                               name="confirmed-password"
+                               id="confirmed-password"
+                               class="form-input"
+                               value="" />
+                        <span id="confirmMatKhauError" class="text-danger" style="display: none; color: red;">Mật khẩu không khớp</span>
+                        <div class="show-hide-password">
+                            <i class="fa-regular fa-eye"
+                               onclick="changeTypeConfirmedPassword()"></i>
+                            <i class="fa-regular fa-eye-slash"
+                               onclick="changeTypeConfirmedPassword()"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form__btn-group">
+                    <a href="/Home/index" class="btn form-btn">Hủy</a>
+                    <button type="submit" class="btn form-btn" id="save">Lưu</button>
+                </div>
+            </form>
         </div>
+    </main>
 
-        <!-- Nút Submit và Nút Quay Lại -->
-        <button type="submit" class="btn btn-success">Sửa thông tin</button>
-        <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Quay Lại</a>
-    }
-</div>
+    <script>
+        const currentPassword = document.getElementById("current-password");
+        const newPassword = document.getElementById("new-password");
+        const confirmedPassword =
+            document.getElementById("confirmed-password");
 
+        function changeTypeCurrentPassword() {
+            currentPassword.type =
+                currentPassword.type == "text" ? "password" : "text";
+        }
+        function changeTypeNewPassword() {
+            newPassword.type =
+                newPassword.type == "text" ? "password" : "text";
+        }
+        function changeTypeConfirmedPassword() {
+            confirmedPassword.type =
+                confirmedPassword.type == "text" ? "password" : "text";
+        }
+        $(document).ready(function () {
+            $('#confirmed-password').on('input', function () {
+                var matKhau = $('#new-password').val();
+                var confirmMatKhau = $(this).val();
+                if (matKhau !== confirmMatKhau) {
+                    $('#confirmMatKhauError').show();
+                } else {
+                    $('#confirmMatKhauError').hide();
+                }
+            });
+            $('#save').on('click', function (e) {
+                var matKhau = $('#new-password').val();
+                var confirmMatKhau = $('#confirmed-password').val();
+
+                if (matKhau !== confirmMatKhau) {
+                    e.preventDefault(); // Ngăn form được submit
+                    $('#confirmMatKhauError').css('display', 'block').text('Mật khẩu không khớp');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
 
 
 

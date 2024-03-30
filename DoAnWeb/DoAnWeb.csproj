@@ -2374,8 +2374,9 @@
     <Content Include="Content\clients\plugins\uplot\uPlot.min.css" />
     <Content Include="Content\css\base.css" />
     <Content Include="Content\css\cart %281%29.css" />
+    <Content Include="Content\css\img\30ccf2ab28d68788dec7.jpg" />
     <Content Include="Content\css\img\5c7a6d878c9920c77988.jpg" />
-    <Content Include="Content\css\img\a02bdeed1d22b17ce833.jpg" />
+    <Content Include="Content\css\img\a02bdeed1d22b17ce833.png" />
     <Content Include="Content\css\img\apple-chinh-hang.jpg" />
     <Content Include="Content\css\img\apple.png" />
     <Content Include="Content\css\img\care-services.png" />
@@ -2404,6 +2405,7 @@
     <Content Include="Content\css\main1.js" />
     <Content Include="Content\css\news.css" />
     <Content Include="Content\css\order %281%29.css" />
+    <Content Include="Content\css\profile.css" />
     <Content Include="Content\css\reset.css" />
     <Content Include="Content\fonts\themify-icons\themify-icons.css" />
     <Content Include="favicon.ico" />

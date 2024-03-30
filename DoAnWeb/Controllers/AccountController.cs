@@ -66,13 +66,16 @@ namespace DoAnWeb.Controllers
         [HttpPost]
         public ActionResult Edit(User model)
         {
-             User khachhang = db.Users.Where(row => row.maTK == model.maTK).FirstOrDefault();
+            User khachhang = db.Users.Where(row => row.maTK == model.maTK).FirstOrDefault();
 
             khachhang.tenUser = model.tenUser;
             khachhang.email = model.email;
             khachhang.SDT = model.SDT;
             khachhang.taiKhoan = model.taiKhoan;
-            khachhang.matKhau = model.matKhau;
+            if (model.matKhau != null)
+            {
+                khachhang.matKhau = model.matKhau;
+            }
             db.SaveChanges();
             return RedirectToAction("Index", "Home");
 

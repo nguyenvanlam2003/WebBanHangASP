@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,7 +15,7 @@ namespace DoAnWeb.Areas.Admin.Controllers
         private MyDBconText db = new MyDBconText();
         public ActionResult Index(int page = 1)
         {
-            List<HoaDon> ketqua = db.HoaDons.ToList();
+            List<HoaDon> ketqua = db.HoaDons.OrderBy(row => DbFunctions.DiffSeconds(row.ngayMua, DateTime.Now)).ToList();
             int NoOfrecorPerPage = 4;
             int NoOfPages = (int)Math.Ceiling((double)ketqua.Count / NoOfrecorPerPage);
             int NoOfRecorToSkip = (page - 1) * NoOfrecorPerPage;
