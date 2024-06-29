@@ -1,36 +1,36 @@
 ﻿@using System
+@model List<DoAnWeb.Models.HoaDon>
 @{
     ViewBag.Title = "Đơn hàng";
     Layout = "~/Views/Shared/_LayoutCart.cshtml";
-    string UserId = ViewBag.userID;
+    //string UserId = ViewBag.userID;
     var db = new DoAnWeb.Models.MyDBconText();
-    var Hd = (from hd in db.HoaDons
-              join us in db.Users on hd.maTK equals us.maTK
-              where hd.maTK == UserId
-              select new
-              {
+    //var Hd = (from hd in db.HoaDons
+    //          join us in db.Users on hd.maTK equals us.maTK
+    //          where hd.maTK == UserId
+    //          select new
+    //          {
 
-                  hd.maTK,
-                  hd.maHD,
-                  hd.tenKH,
-                  hd.hinhThucThanhToan,
-                  hd.ghichu,
-                  hd.ngayMua,
-                  hd.SDT,
-                  hd.diaChi,
-                  hd.trangThai,
-                  us.email,
-                  hd.tongTien,
-                  tongSL = hd.soLuong,
-              }).ToList();
-    Hd = Hd.OrderBy(hd =>(DateTime.Now - hd.ngayMua)).ToList();
+    //              hd.maTK,
+    //              hd.maHD,
+    //              hd.tenKH,
+    //              hd.hinhThucThanhToan,
+    //              hd.ghichu,
+    //              hd.ngayMua,
+    //              hd.SDT,
+    //              hd.diaChi,
+    //              hd.trangThai,
+    //              us.email,
+    //              hd.tongTien,
+    //              tongSL = hd.soLuong,
+    //          }).ToList();
+    //Hd = Hd.OrderBy(hd => (DateTime.Now - hd.ngayMua)).ToList();
 
 }
 <style>
-    td:nth-child(odd){
-        width:120px;
+    td:nth-child(odd) {
+        width: 120px;
     }
- 
 </style>
 <div class="container">
     <a href="/home/index" class="navigation__back">
@@ -41,7 +41,8 @@
         <span class="navigation__back-text">Quay lại</span>
     </a>
 </div>
-@foreach (var item in Hd)
+
+@foreach (var item in Model)
 {
     <main>
         <div class="container">
@@ -80,12 +81,12 @@
                             <!-- <td>Chi tiết hóa đơn</td>
                             <td colspan="3">Xem tại đây</td> -->
                             <td>Email</td>
-                            <td colspan="3">@item.email</td>
+                            <td colspan="3">@item.User.email</td>
                         </tr>
                         <tr>
                             <td>Ghi chú</td>
                             <td colspan="5">
-                               @item.ghichu
+                                @item.ghichu
                             </td>
                         </tr>
                         <tr>
@@ -206,48 +207,85 @@
                                     </td>
                                 </tr>
                             }
+                        }
+
+
+
+                        <tr class="no-border">
+                            <td colspan="6" class="align-right">
+                                Tổng tiền:
+                            </td>
+                            <td>@(item.tongTien.Value.ToString("N0") + "đ" )</td>
+                        </tr>
+                        <tr class="no-border">
+                            <td colspan="6" class="align-right">
+                                Đã trả trước:
+                            </td> @if (item.hinhThucThanhToan == "banking")
+                            {
+                                <td> -@(item.tongTien.Value.ToString("N0") + "đ") </td>
                             }
-
-
-
-                                <tr class="no-border">
-                                    <td colspan="6" class="align-right">
-                                        Tổng tiền:
-                                    </td>
-                                    <td>@(item.tongTien.Value.ToString("N0") + "đ" )</td>
-                                </tr>
-                                <tr class="no-border">
-                                    <td colspan="6" class="align-right">
-                                        Đã trả trước:
-                                    </td> @if (item.hinhThucThanhToan == "banking")
-                                    {
-                                        <td> -@(item.tongTien.Value.ToString("N0") + "đ") </td>
-                                    }
-                                    else
-                                    {
-                                        <td>-00 đ</td>
-                                    }
-                                </tr>
-                                <tr class="no-border">
-                                    <td colspan="6" class="align-right">
-                                        Giảm giá:
-                                    </td>
-                                    <td>-00 đ</td>
-                                </tr>
-                                <tr class="no-border">
-                                    <td colspan="6" class="align-right">
-                                        Tổng tiền thanh toán:
-                                    </td>
-                                    <td>
-                                        <strong class="text-red">@(item.tongTien.Value.ToString("N0") + "đ" )</strong>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            else
+                            {
+                                <td>-00 đ</td>
+                            }
+                        </tr>
+                        <tr class="no-border">
+                            <td colspan="6" class="align-right">
+                                Giảm giá:
+                            </td>
+                            <td>-00 đ</td>
+                        </tr>
+                        <tr class="no-border">
+                            <td colspan="6" class="align-right">
+                                Tổng tiền thanh toán:
+                            </td>
+                            <td>
+                                <strong class="text-red">@(item.tongTien.Value.ToString("N0") + "đ" )</strong>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
     </main>
-                            }
+}
+@{
+    int Pev = ViewBag.Page - 1;
+    if (Pev <= 0) { Pev = 1; }
+    int next = ViewBag.Page + 1;
+    if (next > ViewBag.NoOfPages) { next = ViewBag.NoOfPages; }
+}
+<ul class="pagination justify-content-center" style="padding-top: 20px; padding-bottom: 20px;">
+    <li class="page-item ">
+        <a class="page-link" href="/DonHang/Index?page=@Pev">
+            <i class="ti-arrow-left"></i>
+        </a>
+    </li>
+    @for (int j = 0; j < ViewBag.NoOfPages; j++)
+    {
+        if (j + 1 == ViewBag.Page)
+        {
+            <li class="page-item active">
+                <a class="page-link" href="/DonHang/Index?page=@(j+1)">
+                    @(j+1)
+                </a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item ">
+                <a class="page-link" href="/DonHang/Index?page=@(j+1)">
+                    @(j+1)
+                </a>
+            </li>
+        }
+    }
+    <li class="page-item ">
+        <a class="page-link" href="/DonHang/Index?page=@next">
+            <i class="ti-arrow-right"></i>
+        </a>
+    </li>
+</ul>
 
 
 

@@ -12,10 +12,12 @@ namespace DoAnWeb.Controllers
     {
         // GET: thanhToanPayPal
         private MyDBconText db = new MyDBconText();
+   
         public ActionResult PaymentWithPaypal(string Cancel = null)
         {
             //getting the apiContext  
-            APIContext apiContext = PaypalConfiguration.GetAPIContext();
+            APIContext apiContext =PaypalConfiguration.GetAPIContext();
+
             try
             {
                 //A resource representing a Payer that funds a payment Payment Method as paypal  
@@ -155,7 +157,7 @@ namespace DoAnWeb.Controllers
             {
                 itemList.items.Add(new Item()
                 {
-                    name = item.tenSP,
+                    name = item.tenSP.ToString(),
                     currency = "USD",
                     price = Math.Round(item.gia.Value / 24950, 2).ToString(),
                     quantity = item.ChiTietGioHangSoLuong.ToString()

@@ -17,9 +17,9 @@
     <link rel="stylesheet" href="~/Content/fonts/fontawesome-free-6.4.0-web/css/all.min.css">
     <link rel="stylesheet" href="~/Content/fonts/themify-icons/themify-icons.css">
     <style>
-        .header__navbar-item{
-            height:65.5px;
-        } 
+        .header__navbar-item {
+            height: 65.5px;
+        }
     </style>
 </head>
 
@@ -85,46 +85,46 @@
                             string username = Request.Cookies["UserSession"]?.Value;
                             string id = Request.Cookies["UserSession"]?["UserId"] != null ? Request.Cookies["UserSession"]["UserId"] : "";
                             var count = db.GioHangs.Where(x => x.maTK == id).Select(x => x.soLuong).FirstOrDefault();
-                            count = count ==null? 0:count ;
-                        } 
+                            count = count == null ? 0 : count;
+                        }
                         <span class="header__cart-notice">@(count)</span>
                         <!-- No cart : header__cart-list-no-cart -->
                         @*<div class="header__cart-list">
-            <img src="./assets/css/img/no-item.png" alt="" class="header__cart-no-cart-img">
-            <span class="header__cart-list-no-cart-msg">
-                Chưa có sản phẩm
-            </span>
-            <h4 class="header__cart-heading">Sản phẩm đã thêm</h4>
-            <ul class="header__cart-list-item">
-
-                @foreach (var item in ketqua)
-                {
-                    <li class="header__cart-item">
-                        <img src="@Url.Content(@item.HinhAnh)" alt="" class="header__cart-img">
-
-                        <div class="header__cart-item-info">
-
-                            <div class="header__cart-item-head">
-                                <h5 class="header__cart-item-name">@item.TenSP</h5>
-                                <div class="header__cart-item-price-wrap">
-                                    <span class="header__cart-item-price">@(item.GiaBan != null ? item.GiaBan.Value.ToString("N0") + "đ" : "Không có thông tin")</span>
-                                    <span class="header__cart-item-multiply">x</span>
-                                    <span class="header__cart-item-qnt">@item.SoLuong</span>
-                                </div>
-                            </div>
-
-                            <div class="header__cart-item-body">
-                                <span class="header__cart-item-description">
-                                    Phân loại: @item.Mau
+                                <img src="./assets/css/img/no-item.png" alt="" class="header__cart-no-cart-img">
+                                <span class="header__cart-list-no-cart-msg">
+                                    Chưa có sản phẩm
                                 </span>
-                                <a href="@Url.Action("xoaGioHang", "Home", new { id = item.MaSP })" class="header__cart-item-remove">Xóa</a>
-                            </div>
-                        </div>
-                    </li>
-                }
+                                <h4 class="header__cart-heading">Sản phẩm đã thêm</h4>
+                                <ul class="header__cart-list-item">
 
-            </ul>
-        </div>*@
+                                    @foreach (var item in ketqua)
+                                    {
+                                        <li class="header__cart-item">
+                                            <img src="@Url.Content(@item.HinhAnh)" alt="" class="header__cart-img">
+
+                                            <div class="header__cart-item-info">
+
+                                                <div class="header__cart-item-head">
+                                                    <h5 class="header__cart-item-name">@item.TenSP</h5>
+                                                    <div class="header__cart-item-price-wrap">
+                                                        <span class="header__cart-item-price">@(item.GiaBan != null ? item.GiaBan.Value.ToString("N0") + "đ" : "Không có thông tin")</span>
+                                                        <span class="header__cart-item-multiply">x</span>
+                                                        <span class="header__cart-item-qnt">@item.SoLuong</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="header__cart-item-body">
+                                                    <span class="header__cart-item-description">
+                                                        Phân loại: @item.Mau
+                                                    </span>
+                                                    <a href="@Url.Action("xoaGioHang", "Home", new { id = item.MaSP })" class="header__cart-item-remove">Xóa</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>*@
                     </a>
                 </div>
 
@@ -356,4 +356,10 @@
     </div>
 </footer>
 <script src="~/Content/css/main1.js"></script>
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger intent="WELCOME"
+              chat-title="HoangHaMobile"
+              agent-id="7da9896d-31f7-490a-9caf-16e942da096c"
+              language-code="en">
+</df-messenger>
 </html>

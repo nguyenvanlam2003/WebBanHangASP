@@ -32,7 +32,7 @@
                         Danh mục
                     </h3>
                     <ul class="category-list">
-                        @foreach(var item in ViewBag.hangSX) 
+                        @foreach (var item in ViewBag.hangSX)
                         {
                             <li class="category-item">
                                  <a href="/Home/hienthitheohang?maHangsx=@(item.Value)" class="category-item__link">@item.Text</a>
@@ -94,13 +94,13 @@
                         <!-- List options -->
                         <ul class="select-input__list-sort">
                             <li class="select-input__item">
-                                <a href="@Url.Action("SapXepGia","Home", new { sortPrice = "Sắp xếp" })" class="select-input__link">Sắp xếp</a>
+                                <a href="@Url.Action("SapXepGia", "Home", new { sortPrice = "Sắp xếp" })" class="select-input__link">Sắp xếp</a>
                             </li>
                             <li class="select-input__item">
-                                <a href="@Url.Action("SapXepGia","Home", new { sortPrice = "Giá thấp đến cao" })" class="select-input__link">Giá thấp đến cao</a>
+                                <a href="@Url.Action("SapXepGia", "Home", new { sortPrice = "Giá thấp đến cao" })" class="select-input__link">Giá thấp đến cao</a>
                             </li>
                             <li class="select-input__item">
-                                <a href="@Url.Action("SapXepGia","Home", new { sortPrice = "Giá cao đến thấp" })" class="select-input__link">Giá cao đến thấp</a>
+                                <a href="@Url.Action("SapXepGia", "Home", new { sortPrice = "Giá cao đến thấp" })" class="select-input__link">Giá cao đến thấp</a>
                             </li>
                         </ul>
                     </div>
@@ -126,7 +126,7 @@
                                         }
                                     }
                                     <h4 class="home-product-item__name">
-                                        @(string.IsNullOrEmpty(item.tenSP)?"":item.tenSP)
+                                        @(string.IsNullOrEmpty(item.tenSP) ? "" : item.tenSP)
                                         @*iPhone 14 Pro Max (128GB) -
                                             Chính hãng VN/A*@
                                     </h4>
@@ -135,11 +135,11 @@
                                         {
                                             <span class="home-product-item__price-current"> @(item.giaMoi != null ? item.giaMoi.Value.ToString("N0") + "đ" : "")</span>
                                             <span class="home-product-item__price-old">@(item.giaBan != null ? item.giaBan.Value.ToString("N0") + "đ" : "")</span>
-                }
-                else
-                {
+                                        }
+                                        else
+                                        {
                                     <span class="home-product-item__price-current"> @(item.giaBan != null ? item.giaBan.Value.ToString("N0") + "đ" : "")</span>
-                }
+                                        }
 
                                     </div>
                                     <div class="home-product-item__note">
@@ -177,11 +177,20 @@
                                 </div>
                             </a>
                         </div>
-                    }
+                                        }
                 </div>
             </div>
             <div class="home-product__more-product">
                 <a href="">Không còn sản phẩm nào..!</a>
+                @*@{ if (ViewBag.SoluongConLai <= 0)
+         {
+               <a href="">Không còn sản phẩm nào..!</a>
+         }
+         else
+         {
+               <a href="/Home/index??search=@ViewBag.timkiem&page=@(ViewBag.Page+1)">Còn @ViewBag.SoluongConLai sản phẩm nữa!</a>
+         }
+        }*@
             </div>
         </div>
     </div>

@@ -22,6 +22,17 @@ namespace DoAnWeb.Controllers
             ViewBag.PriceRange = "Giá";
             ViewBag.RamRange = "Ram";
             ViewBag.sapXep = "Sắp xếp";
+            //int NoOfrecorPerPage = 3;
+            //ViewBag.Page = page;
+            //ViewBag.SoluongConLai = db.SanPhams.Count() - (NoOfrecorPerPage * page);
+            //// Lấy danh sách sản phẩm cho trang hiện tại
+          
+            //var sanPhamTrangHienTai = ketqua.Take(NoOfrecorPerPage*page).ToList();
+            //if (search != "")
+            //{
+            //    sanPhamTrangHienTai = ketqua.ToList();
+            //    ViewBag.SoluongConLai= -1;
+            //}
             return View(ketqua);
         }
         public ActionResult chiTietSP(string id)
@@ -41,6 +52,7 @@ namespace DoAnWeb.Controllers
             ViewBag.PriceRange = "Giá";
             ViewBag.RamRange = "Ram";
             ViewBag.sapXep = "Sắp xếp";
+            //ViewBag.SoluongConLai = 0;
             return View("Index", ketqua);
         }
         public ActionResult locgia(string priceRange = "")
@@ -71,7 +83,7 @@ namespace DoAnWeb.Controllers
                     // Nếu không có lựa chọn hoặc lựa chọn không hợp lệ, giữ nguyên danh sách.
                     break;
             }
-
+            //ViewBag.SoluongConLai = 0;
             return View("Index", ketqua);
         }
         public ActionResult locRam(string ramRange = "")
@@ -105,7 +117,7 @@ namespace DoAnWeb.Controllers
                     // Nếu không có lựa chọn hoặc lựa chọn không hợp lệ, giữ nguyên danh sách.
                     break;
             }
-
+            //ViewBag.SoluongConLai = -1;
             return View("Index", ketqua);
         }
         public ActionResult SapXepGia(string sortPrice = "")
@@ -132,7 +144,7 @@ namespace DoAnWeb.Controllers
                 default:
                     break;
             }
-
+            //ViewBag.SoluongConLai = -1;
             return View("Index", ketqua);
         }
         public ActionResult trungTamBH()

@@ -36,10 +36,10 @@ namespace DoAnWeb.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] // ngăn chặn tấn công Cross-Site Request Forgery (CSRF)
         public ActionResult ThemSP(SanPham sp, HttpPostedFileBase HinhAnh)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid)// kiểm tra dữ liệu gủi lên có hợp lệ không
             {
                 if (HinhAnh != null && HinhAnh.ContentLength > 0)
                 {
@@ -127,30 +127,37 @@ namespace DoAnWeb.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(string id)
         {
-            var item = db.SanPhams.Find(id);
-            if (item != null)
-            {
-                if (!string.IsNullOrEmpty(item.hinhAnh))
+            try {
+                var item = db.SanPhams.Find(id);
+                if (item != null)
                 {
-                    // Lấy tên tệp tin từ đường dẫn
-                    string tenanh = Path.GetFileName(item.hinhAnh);
-
-                    // Đường dẫn đầy đủ của tệp tin ảnh cũ
-                    string oldFilePath = Path.Combine(Server.MapPath("~/Assets/Img/"), tenanh);
-
-                    // Kiểm tra xem tệp tin tồn tại trước khi xóa
-                    if (System.IO.File.Exists(oldFilePath))
+                    if (!string.IsNullOrEmpty(item.hinhAnh))
                     {
-                        // Xóa tệp tin từ thư mục
-                        System.IO.File.Delete(oldFilePath);
-                    }
-                }
-                db.SanPhams.Remove(item);
-                db.SaveChanges();
-                return Json(new { success = true });
-            }
+                        // Lấy tên tệp tin từ đường dẫn
+                        string tenanh = Path.GetFileName(item.hinhAnh);
 
-            return Json(new { success = false });
+                        // Đường dẫn đầy đủ của tệp tin ảnh cũ
+                        string oldFilePath = Path.Combine(Server.MapPath("~/Assets/Img/"), tenanh);
+
+                        // Kiểm tra xem tệp tin tồn tại trước khi xóa
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            // Xóa tệp tin từ thư mục
+                            System.IO.File.Delete(oldFilePath);
+                        }
+                    }
+                    db.SanPhams.Remove(item);
+                    db.SaveChanges();
+                    return Json(new { success = true });
+                }
+
+                return Json(new { success = false, message = "Sản phẩm này vẫn đang sử dụng không được phép xóa." });
+            }
+            catch 
+            {
+                return Json(new { success = false, message = "Sản phẩm này vẫn đang sử dụng không được phép xóa." });
+            }
+           
         }
         [HttpPost]
         public ActionResult DeleteAll(string ids)

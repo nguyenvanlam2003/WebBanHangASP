@@ -20,7 +20,7 @@ namespace DoAnWeb.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult GetStatistical(string fromDate, string toDate)
         {
-            var query = from hd in db.HoaDons
+            var query =( from hd in db.HoaDons
                         join cthd in db.ChiTietHDs
                         on hd.maHD equals cthd.maHD
                         join sp in db.SanPhams
@@ -29,10 +29,11 @@ namespace DoAnWeb.Areas.Admin.Controllers
                         select new
                         {
                             CreatedDate = hd.ngayMua,
-                            Quantity = hd.soLuong,
+                            Quantity = cthd.soLuong,
                             Price = cthd.gia,
                             OriginalPrice = sp.giaNhap
-                        };
+                        });
+
             if (!string.IsNullOrEmpty(fromDate))
             {
                 DateTime startDate = DateTime.ParseExact(fromDate, "dd/MM/yyyy", null);
@@ -43,8 +44,8 @@ namespace DoAnWeb.Areas.Admin.Controllers
                 DateTime endDate = DateTime.ParseExact(toDate, "dd/MM/yyyy", null);
                 query = query.Where(x => x.CreatedDate < endDate);
             }
-
-            var result = query.GroupBy(x => DbFunctions.TruncateTime(x.CreatedDate)).Select(x => new
+           
+            var result = query.GroupBy(x => DbFunctions.TruncateTime(x.CreatedDate)).Select(x => new //loai bỏ giờ
             {
                 Date = x.Key.Value,
                 TotalBuy = x.Sum(y => y.Quantity * y.OriginalPrice),
@@ -55,6 +56,7 @@ namespace DoAnWeb.Areas.Admin.Controllers
                 DoanhThu = x.TotalSell,
                 LoiNhuan = x.TotalSell - x.TotalBuy
             });
+
             return Json(new { Data = result }, JsonRequestBehavior.AllowGet);
         }
 

@@ -63,15 +63,22 @@ namespace DoAnWeb.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(string id)
         {
-            var item = db.Users.Find(id);
-            if (item != null)
-            {
-                db.Users.Remove(item);
-                db.SaveChanges();
-                return Json(new { success = true });
-            }
+            try {
+                var item = db.Users.Find(id);
+                if (item != null)
+                {
+                    db.Users.Remove(item);
+                    db.SaveChanges();
+                    return Json(new { success = true });
+                }
 
-            return Json(new { success = false });
+                return Json(new { success = false, message = "Tài khoản này vẫn đang sử dụng không được phép xóa." });
+            }
+            catch
+            {
+                return Json(new { success = false , message = "Tài khoản này vẫn đang sử dụng không được phép xóa." });
+            }
+            
         }
         [HttpPost]
         public ActionResult DeleteAll(string ids)
